@@ -46,6 +46,8 @@ app.post('/webhook/', function (req, res) {
       } else if (_.includes(text, 'business name is')) {
         businessName(sender, text)
         continue
+      } else if (_.includes(test, "years")) {
+        yearsInBusiness(sender, text)
       }
       sendTextMessage(sender, defaultResponse);
     }
@@ -104,6 +106,19 @@ function businessName(sender, text) {
   var failureResponse = "Unfortunately, we don't recognize your name, try again"
 
   sendTextMessage(sender, successResponse);
+}
+
+function yearsInBusiness(sender, text) {
+  var successResponse = "Great. What were your total sales for the last year?"
+  var failureResponse = "Unfortunately, we can only lend to businesses that are at least 2 years old."
+
+  var years = text.match(/\d+/);
+
+  if (years >= 2) {
+    sendTextMessage(sender, successResponse);
+  } else {
+    sendTextMessage(sender, failureResponse);
+  }
 }
 
 
