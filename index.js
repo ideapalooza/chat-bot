@@ -84,7 +84,7 @@ function greet(sender) {
 }
 
 function approveAmount(sender, text) {
-  var successReponse = "Excellent, that’s a perfect fit. What’s your business called?"
+  var successResponse = "Excellent, that’s a perfect fit. What’s your business called?"
   var failureResponse = "Unfortunately, we can only fund loans between $25,000 and $500,000."
   var amount = text.match(/\d+/);
 
