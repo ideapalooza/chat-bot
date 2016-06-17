@@ -43,6 +43,9 @@ app.post('/webhook/', function (req, res) {
       } else if (_.includes(text, 'borrow')) {
         approveAmount(sender, text)
         continue
+      } else if (_.includes(text, 'business is')) {
+        businessName(sender, text)
+        continue
       }
       sendTextMessage(sender, defaultResponse);
     }
@@ -79,7 +82,7 @@ function sendTextMessage(sender, text) {
 }
 
 function greet(sender) {
-  var text = "It sounds like you're looking for a loan. How much do you want to borrow? Please respond with a full sentence - e.g. 'I want to borrow $150,000.'";
+  var text = "It sounds like you're looking for a loan. How much do you want to borrow?";
   sendTextMessage(sender, text);
 }
 
@@ -94,6 +97,15 @@ function approveAmount(sender, text) {
     sendTextMessage(sender, failureResponse);
   }
 }
+
+function businessName(sender, text) {
+  var name = text.replace('My business name is ','');
+  var successResponse = "Excellent, " + name + " is a great name. How long have you been in business?"
+  var failureResponse = "Unfortunately, we don't recognize your name, try again"
+
+  sendTextMessage(sender, successResponse);
+}
+
 
 
 // spin spin sugar
