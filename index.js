@@ -46,8 +46,9 @@ app.post('/webhook/', function (req, res) {
       } else if (_.includes(text, 'business name is')) {
         businessName(sender, text)
         continue
-      } else if (_.includes(test, "years")) {
+      } else if (_.includes(text, "years")) {
         yearsInBusiness(sender, text)
+        continue
       }
       sendTextMessage(sender, defaultResponse);
     }
