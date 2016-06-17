@@ -37,11 +37,11 @@ app.post('/webhook/', function (req, res) {
     let sender = event.sender.id
     if (event.message && event.message.text) {
       let text = event.message.text
-      if (_.includes(text, 'a loan')) {
+      if (_.includes(text, 'loan')) {
         greet(sender)
         continue
-      } else if (_.includes(text, '$')) {
-        approveAmount(sender)
+      } else if (_.includes(text, 'borrow')) {
+        approveAmount(sender, text)
         continue
       }
       sendTextMessage(sender, defaultResponse);
@@ -79,13 +79,20 @@ function sendTextMessage(sender, text) {
 }
 
 function greet(sender) {
-  var text = "It sounds like you're looking for a loan. How much do you want to borrow?";
+  var text = "It sounds like you're looking for a loan. How much do you want to borrow? Please respond with a full sentence - e.g. 'I want to borrow $150,000.'";
   sendTextMessage(sender, text);
 }
 
-function approveAmount(sender) {
-  var text = "Excellent, that’s a perfect fit. What’s your business called?"
-  sendTextMessage(sender, text);
+function approveAmount(sender, text) {
+  var successReponse = "Excellent, that’s a perfect fit. What’s your business called?"
+  var failureResponse = "Unfortunately, we can only fund loans between $25,000 and $500,000."
+  var amount = text.match(/\d+/);
+
+  if (amount >= 25000 && amount <= 500000) {
+    sendTextMessage(sender, successResponse);
+  } else {
+    sendTextMessage(sender, failureResponse);
+  }
 }
 
 
