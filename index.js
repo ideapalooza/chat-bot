@@ -27,6 +27,8 @@ app.get('/webhook/', function (req, res) {
   res.send('Error, wrong token')
 })
 
+var defaultResponse = "Sounds like one of our representatives can help you. Give us a call at (855) 385-5356."
+
 // to post data
 app.post('/webhook/', function (req, res) {
   let messaging_events = req.body.entry[0].messaging
@@ -42,7 +44,7 @@ app.post('/webhook/', function (req, res) {
         approveAmount(sender)
         continue
       }
-      sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+      sendTextMessage(sender, defaultResponse);
     }
     if (event.postback) {
       let text = JSON.stringify(event.postback)
