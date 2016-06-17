@@ -38,6 +38,9 @@ app.post('/webhook/', function (req, res) {
       if (_.includes(text, 'a loan')) {
         greet(sender)
         continue
+      } else if (_.includes(text, '$')) {
+        approveAmount(sender)
+        continue
       }
       sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
     }
@@ -75,6 +78,11 @@ function sendTextMessage(sender, text) {
 
 function greet(sender) {
   var text = "It sounds like you're looking for a loan. How much do you want to borrow?";
+  sendTextMessage(sender, text);
+}
+
+function approveAmount(sender) {
+  var text = "Excellent, that’s a perfect fit. What’s your business called?"
   sendTextMessage(sender, text);
 }
 
