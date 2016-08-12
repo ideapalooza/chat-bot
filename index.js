@@ -6,6 +6,7 @@ const request = require('request')
 const app = express()
 const _ = require('lodash')
 
+
 app.set('port', (process.env.PORT || 5000))
 
 // parse application/x-www-form-urlencoded
@@ -13,6 +14,9 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 // parse application/json
 app.use(bodyParser.json())
+
+// create application/json parser
+var jsonParser = bodyParser.json()
 
 // index
 app.get('/', function (req, res) {
@@ -49,15 +53,6 @@ app.post('/webhook/', function (req, res) {
         answers[prevQ] = text;
 
         if (prevQ === "loan_amount") {
-          questions.push("first_name");
-          sendTextMessage(sender, "whats your first name?");
-          continue
-        } else if (prevQ === "first_name") {
-          questions.push("last_name");
-          sendTextMessage(sender, "whats your last name?");
-          continue
-        }
-        else if (prevQ === "last_name") {
           questions.push("business_name");
           sendTextMessage(sender, "whats your business name?");
           continue
@@ -92,8 +87,21 @@ app.post('/webhook/', function (req, res) {
         sendTextMessage(sender, "How much would you like to borrow?");
         // loanAmount(sender);
         continue
-      } else if (text === 'GET_STARTED' || text === 'Loan Calculator') {
-        sendGenericButtonMessage(sender);
+      } else if (text === 'GET_STARTED') {
+        let url = 'https://graph.facebook.com/v2.6/' + sender + "?access_token=" + token;
+        console.log("url", url);
+        request(url, function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            var userInfo = JSON.parse(body);
+
+            answers["first_name"] = userInfo.first_name;
+            answers["last_name"] = userInfo.last_name;
+            console.log("answers", answers);
+            sendGenericButtonMessage(sender);
+          } else {
+            sendGenericButtonMessage(sender);
+          }
+        })
         continue
       } else if (_.includes(text, 'LOAN_OPTION')) {
         loanTermMessage(sender);
@@ -252,6 +260,7 @@ function loanAmount(sender) {
 
 function loanTermMessage(sender) {
   let params = "&first_name="+answers['first_name'] + "&last_name="+answers['last_name'] + "&email="+answers['email'] + "&business_name="+answers['business_name'] + "&loan_amount="+answers['loan_amount']
+  console.log("params", params);
   let messageData = {
     "attachment": {
       "type": "template",
