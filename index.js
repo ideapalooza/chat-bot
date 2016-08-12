@@ -48,11 +48,16 @@ app.post('/webhook/', function (req, res) {
 
         answers[prevQ] = text;
 
-        if (prevQ === "first_name") {
-          questions.push("last_name");
-          sendTextMessage(sender, "whats your last name?");
+        if (prevQ === "loan_amount") {
+          questions.push("first_name");
+          sendTextMessage(sender, "whats your first name?");
           continue
-        } else if (prevQ === "last_name") {
+        } else if (prevQ === "first_name") {
+          questions.push("last_name");
+          sendTextMessage(sender, "whats your business name?");
+          continue
+        }
+        else if (prevQ === "last_name") {
           questions.push("business_name");
           sendTextMessage(sender, "whats your business name?");
           continue
@@ -61,10 +66,6 @@ app.post('/webhook/', function (req, res) {
           sendTextMessage(sender, "Whats your email address?");
           continue
         } else if (prevQ === "email") {
-          questions.push("loan_amount");
-          sendTextMessage(sender, "How much would you like to borrow?");
-          continue
-        } else if (prevQ === "loan_amount") {
           loanTermMessage(sender);
           continue
         }
@@ -87,13 +88,12 @@ app.post('/webhook/', function (req, res) {
       let text = event.postback.payload;
 
       if (text === 'USER_DEFINED_PAYLOAD1'){
-        loanAmount(sender);
+        questions.push("loan_amount");
+        sendTextMessage(sender, "How much would you like to borrow?");
+        // loanAmount(sender);
         continue
       } else if (text === 'GET_STARTED') {
-        // sendGenericButtonMessage(sender);
-        questions.push("first_name");
-        sendTextMessage(sender, "whats your first name?");
-
+        sendGenericButtonMessage(sender);
         continue
       } else if (_.includes(text, 'LOAN_OPTION')) {
         loanTermMessage(sender);
@@ -182,7 +182,7 @@ function sendGenericButtonMessage(sender) {
         "buttons":[
           {
             "type":"postback",
-            "title":"What could my loan cost?",
+            "title":"Loan Cost?",
             "payload":"USER_DEFINED_PAYLOAD1"
           },
           {
