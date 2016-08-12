@@ -54,7 +54,7 @@ app.post('/webhook/', function (req, res) {
           continue
         } else if (prevQ === "first_name") {
           questions.push("last_name");
-          sendTextMessage(sender, "whats your business name?");
+          sendTextMessage(sender, "whats your last name?");
           continue
         }
         else if (prevQ === "last_name") {
@@ -92,7 +92,7 @@ app.post('/webhook/', function (req, res) {
         sendTextMessage(sender, "How much would you like to borrow?");
         // loanAmount(sender);
         continue
-      } else if (text === 'GET_STARTED') {
+      } else if (text === 'GET_STARTED' || text === 'Loan Calculator') {
         sendGenericButtonMessage(sender);
         continue
       } else if (_.includes(text, 'LOAN_OPTION')) {
