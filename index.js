@@ -259,7 +259,7 @@ function loanTermMessage(sender) {
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=24",
             "title": "2 Year"
           }],
-        }
+        },
         {
           "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=3+Years+Card.png",
           "buttons": [{
@@ -267,7 +267,7 @@ function loanTermMessage(sender) {
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=36",
             "title": "3 Year"
           }],
-        }
+        },
         {
           "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=4+Years+Card.png",
           "buttons": [{
@@ -275,7 +275,7 @@ function loanTermMessage(sender) {
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=48",
             "title": "4 Year"
           }],
-        }
+        },
         {
           "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=5+Years+Card.png",
           "buttons": [{
