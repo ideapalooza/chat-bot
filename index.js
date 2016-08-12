@@ -38,10 +38,7 @@ app.post('/webhook/', function (req, res) {
 
     if (event.message && event.message.text) {
       let text = event.message.text
-      if (_.includes(text, 'hello')) {
-        sendGenericButtonMessage(sender);
-        continue
-      } else if (_.includes(text, 'loan')) {
+      if (_.includes(text, 'loan')) {
         greet(sender)
         continue
       } else if (_.includes(text, 'borrow')) {
@@ -61,6 +58,12 @@ app.post('/webhook/', function (req, res) {
 
       if (text === 'USER_DEFINED_PAYLOAD1'){
         loanCost(sender);
+        continue
+      } else if (text === 'GET_STARTED') {
+        sendGenericButtonMessage(sender);
+        continue
+      } else if (_.includes(text, 'LOAN_OPTION')) {
+        loanTerm(sender, text);
         continue
       }
       continue
@@ -94,6 +97,7 @@ function sendTextMessage(sender, text) {
 function loanCost(sender) {
   var text = "No problem. How much do you want to borrow?";
   sendTextMessage(sender, text);
+  loanAmount(sender);
 }
 
 function greet(sender) {
@@ -180,3 +184,131 @@ function sendGenericButtonMessage(sender) {
   })
 }
 
+function loanAmount(sender) {
+  let messageData = {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"Pick loan amount:",
+        "buttons":[
+          {
+            "type":"postback",
+            "title":"$25,000-100,000",
+            "payload":"LOAN_OPTION_1"
+          },
+          {
+            "type":"postback",
+            "title":"$100,000-200,000",
+            "payload":"LOAN_OPTION_2"
+          },
+          {
+            "type":"postback",
+            "title":"$200,000-300,000",
+            "payload":"LOAN_OPTION_3"
+          },
+          {
+            "type":"postback",
+            "title":"$300,000-400,000",
+            "payload":"LOAN_OPTION_4"
+          },
+          {
+            "type":"postback",
+            "title":"$400,000-500,000",
+            "payload":"LOAN_OPTION_5"
+          },
+        ]
+      }
+    }
+  }
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
+}
+
+function loanTermMessage(sender, loanAmountOption) {
+  loanOptions = {
+    "LOAN_OPTION_1": 25000
+    "LOAN_OPTION_2": 150000
+    "LOAN_OPTION_3": 250000
+    "LOAN_OPTION_4": 350000
+    "LOAN_OPTION_5": 500000
+  }
+  loanAmmount = loanOptions[loanAmountOption];
+
+  let messageData = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [{
+          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "buttons": [{
+            "type": "web_url",
+            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=12",
+            "title": "1 Year"
+          }],
+        },
+        {
+          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "buttons": [{
+            "type": "web_url",
+            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=24",
+            "title": "2 Year"
+          }],
+        }
+        {
+          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "buttons": [{
+            "type": "web_url",
+            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=36",
+            "title": "3 Year"
+          }],
+        }
+        {
+          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "buttons": [{
+            "type": "web_url",
+            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=48",
+            "title": "4 Year"
+          }],
+        }
+        {
+          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "buttons": [{
+            "type": "web_url",
+            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=60",
+            "title": "5 Year"
+          }],
+        }]
+      }
+    }
+  }
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
+}
