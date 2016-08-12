@@ -35,9 +35,13 @@ app.post('/webhook/', function (req, res) {
   for (let i = 0; i < messaging_events.length; i++) {
     let event = req.body.entry[0].messaging[i]
     let sender = event.sender.id
+
     if (event.message && event.message.text) {
       let text = event.message.text
-      if (_.includes(text, 'loan')) {
+      if (_.includes(text, 'hello')) {
+        sendGenericButtonMessage(sender);
+        continue
+      } else if (_.includes(text, 'loan')) {
         greet(sender)
         continue
       } else if (_.includes(text, 'borrow')) {
@@ -53,8 +57,12 @@ app.post('/webhook/', function (req, res) {
       sendTextMessage(sender, defaultResponse);
     }
     if (event.postback) {
-      let text = JSON.stringify(event.postback)
-      sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token)
+      let text = event.postback.payload;
+
+      if (text === 'USER_DEFINED_PAYLOAD1'){
+        loanCost(sender);
+        continue
+      }
       continue
     }
   }
@@ -66,7 +74,6 @@ const token = process.env.PAGE_ACCESS_TOKEN
 
 function sendTextMessage(sender, text) {
   let messageData = { text:text }
-
   request({
     url: 'https://graph.facebook.com/v2.6/me/messages',
     qs: {access_token:token},
@@ -82,6 +89,11 @@ function sendTextMessage(sender, text) {
       console.log('Error: ', response.body.error)
     }
   })
+}
+
+function loanCost(sender) {
+  var text = "No problem. How much do you want to borrow?";
+  sendTextMessage(sender, text);
 }
 
 function greet(sender) {
@@ -128,3 +140,43 @@ function yearsInBusiness(sender, text) {
 app.listen(app.get('port'), function() {
   console.log('running on port', app.get('port'))
 })
+
+function sendGenericButtonMessage(sender) {
+  let messageData = {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"What would you like to know?",
+        "buttons":[
+          {
+            "type":"postback",
+            "title":"What could my loan cost?",
+            "payload":"USER_DEFINED_PAYLOAD1"
+          },
+          {
+            "type":"postback",
+            "title":"Am I eligible?",
+            "payload":"USER_DEFINED_PAYLOAD2"
+          }
+        ]
+      }
+    }
+  }
+  request({
+    url: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: {access_token:token},
+    method: 'POST',
+    json: {
+      recipient: {id:sender},
+      message: messageData,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log('Error sending messages: ', error)
+    } else if (response.body.error) {
+      console.log('Error: ', response.body.error)
+    }
+  })
+}
+
