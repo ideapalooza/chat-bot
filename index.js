@@ -238,58 +238,49 @@ function loanAmount(sender) {
   })
 }
 
-function loanTermMessage(sender, loanAmountOption) {
-  loanOptions = {
-    "LOAN_OPTION_1": 25000
-    "LOAN_OPTION_2": 150000
-    "LOAN_OPTION_3": 250000
-    "LOAN_OPTION_4": 350000
-    "LOAN_OPTION_5": 500000
-  }
-  loanAmmount = loanOptions[loanAmountOption];
-
+function loanTermMessage(sender) {
   let messageData = {
     "attachment": {
       "type": "template",
       "payload": {
         "template_type": "generic",
         "elements": [{
-          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=1+Year+Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=12",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=12",
             "title": "1 Year"
           }],
         },
         {
-          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=2+Years+Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=24",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=24",
             "title": "2 Year"
           }],
         }
         {
-          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=3+Years+Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=36",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=36",
             "title": "3 Year"
           }],
         }
         {
-          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=4+Years+Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=48",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=48",
             "title": "4 Year"
           }],
         }
         {
-          "image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=5+Years+Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_amount=" + loanAmmount + "&loan_duration_in_months=60",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=60",
             "title": "5 Year"
           }],
         }]
