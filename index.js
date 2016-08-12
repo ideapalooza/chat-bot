@@ -57,13 +57,13 @@ app.post('/webhook/', function (req, res) {
       let text = event.postback.payload;
 
       if (text === 'USER_DEFINED_PAYLOAD1'){
-        loanCost(sender);
+        loanAmount(sender);
         continue
       } else if (text === 'GET_STARTED') {
         sendGenericButtonMessage(sender);
         continue
       } else if (_.includes(text, 'LOAN_OPTION')) {
-        loanTerm(sender, text);
+        loanTermMessage(sender);
         continue
       }
       continue
@@ -92,12 +92,6 @@ function sendTextMessage(sender, text) {
       console.log('Error: ', response.body.error)
     }
   })
-}
-
-function loanCost(sender) {
-  var text = "No problem. How much do you want to borrow?";
-  sendTextMessage(sender, text);
-  loanAmount(sender);
 }
 
 function greet(sender) {
@@ -194,27 +188,12 @@ function loanAmount(sender) {
         "buttons":[
           {
             "type":"postback",
-            "title":"$25,000-100,000",
+            "title":"$25,000-250,000",
             "payload":"LOAN_OPTION_1"
           },
           {
             "type":"postback",
-            "title":"$100,000-200,000",
-            "payload":"LOAN_OPTION_2"
-          },
-          {
-            "type":"postback",
-            "title":"$200,000-300,000",
-            "payload":"LOAN_OPTION_3"
-          },
-          {
-            "type":"postback",
-            "title":"$300,000-400,000",
-            "payload":"LOAN_OPTION_4"
-          },
-          {
-            "type":"postback",
-            "title":"$400,000-500,000",
+            "title":"$250,000-500,000",
             "payload":"LOAN_OPTION_5"
           },
         ]
@@ -245,7 +224,8 @@ function loanTermMessage(sender) {
       "payload": {
         "template_type": "generic",
         "elements": [{
-          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=1+Year+Card.png",
+          "title": "Option 1",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/1 Year Card.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=12",
@@ -253,7 +233,8 @@ function loanTermMessage(sender) {
           }],
         },
         {
-          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=2+Years+Card.png",
+          "title": "Option 2",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/2 Years Card.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=24",
@@ -261,7 +242,8 @@ function loanTermMessage(sender) {
           }],
         },
         {
-          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=3+Years+Card.png",
+          "title": "Option 3",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/3 Years Card.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=36",
@@ -269,7 +251,8 @@ function loanTermMessage(sender) {
           }],
         },
         {
-          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=4+Years+Card.png",
+          "title": "Option 4",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/4 Years Card.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=48",
@@ -277,7 +260,8 @@ function loanTermMessage(sender) {
           }],
         },
         {
-          "image_url": "https://www.dropbox.com/sh/xrpafzyba8r6zu7/AAA6g7Zdch6SONRJfDiQOv5fa?dl=0&preview=5+Years+Card.png",
+          "title": "Option 5",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/5 Years Card.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=60",
