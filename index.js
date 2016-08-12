@@ -29,6 +29,8 @@ app.get('/webhook/', function (req, res) {
 
 var defaultResponse = "Sounds like one of our representatives can help you. Give us a call at (855) 385-5356."
 
+var questions = [];
+var answers = {};
 // to post data
 app.post('/webhook/', function (req, res) {
   let messaging_events = req.body.entry[0].messaging
@@ -36,8 +38,25 @@ app.post('/webhook/', function (req, res) {
     let event = req.body.entry[0].messaging[i]
     let sender = event.sender.id
 
+
+
     if (event.message && event.message.text) {
       let text = event.message.text
+
+      if(questions.length > 0) {
+        var prevQ = questions.pop();
+
+        answers[prevQ] = text;
+
+        if (prevQ === "first_name") {
+          questions.push("last_name");
+          sendTextMessage(sender, "whats your last name?");
+        } else if (prevQ === "last_name") {
+          questions.push("email");
+          sendTextMessage(sender, "whats your email?" + answers["first_name"]);
+        }
+      }
+
       if (_.includes(text, 'loan')) {
         greet(sender)
         continue
@@ -60,7 +79,10 @@ app.post('/webhook/', function (req, res) {
         loanAmount(sender);
         continue
       } else if (text === 'GET_STARTED') {
-        sendGenericButtonMessage(sender);
+        // sendGenericButtonMessage(sender);
+        questions.push("first_name");
+        sendTextMessage(sender, "whats your first name?");
+
         continue
       } else if (_.includes(text, 'LOAN_OPTION')) {
         loanTermMessage(sender);
