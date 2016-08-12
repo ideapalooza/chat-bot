@@ -51,13 +51,24 @@ app.post('/webhook/', function (req, res) {
         if (prevQ === "first_name") {
           questions.push("last_name");
           sendTextMessage(sender, "whats your last name?");
+          continue
         } else if (prevQ === "last_name") {
+          questions.push("business_name");
+          sendTextMessage(sender, "whats your business name?");
+          continue
+        } else if (prevQ === "business_name") {
           questions.push("email");
-          sendTextMessage(sender, "whats your email?" + answers["first_name"]);
+          sendTextMessage(sender, "Whats your email address?");
+          continue
+        } else if (prevQ === "email") {
+          questions.push("loan_amount");
+          sendTextMessage(sender, "How much would you like to borrow?");
+          continue
+        } else if (prevQ === "loan_amount") {
+          loanTermMessage(sender);
+          continue
         }
-      }
-
-      if (_.includes(text, 'loan')) {
+      } else if (_.includes(text, 'loan')) {
         greet(sender)
         continue
       } else if (_.includes(text, 'borrow')) {
@@ -240,6 +251,7 @@ function loanAmount(sender) {
 }
 
 function loanTermMessage(sender) {
+  let params = "&first_name="+answers['first_name'] + "&last_name="+answers['last_name'] + "&email="+answers['email'] + "&business_name="+answers['business_name'] + "&loan_amount="+answers['loan_amount']
   let messageData = {
     "attachment": {
       "type": "template",
@@ -259,7 +271,7 @@ function loanTermMessage(sender) {
           "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/2 Years Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=24",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=24" + params,
             "title": "2 Year"
           }],
         },
@@ -268,7 +280,7 @@ function loanTermMessage(sender) {
           "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/3 Years Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=36",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=36" + params,
             "title": "3 Year"
           }],
         },
@@ -277,7 +289,7 @@ function loanTermMessage(sender) {
           "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/4 Years Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=48",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=48" + params,
             "title": "4 Year"
           }],
         },
@@ -286,7 +298,7 @@ function loanTermMessage(sender) {
           "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/5 Years Card.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=60",
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=60" + params,
             "title": "5 Year"
           }],
         }]
