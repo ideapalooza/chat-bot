@@ -267,48 +267,48 @@ function loanTermMessage(sender) {
       "payload": {
         "template_type": "generic",
         "elements": [{
-          "title": "Option 1",
-          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/1 Year Card.png",
+          "title": "1 Year",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/Card 1-1.png",
           "buttons": [{
             "type": "web_url",
-            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=12",
-            "title": "1 Year"
+            "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=12" + params,
+            "title": "Choose this loan"
           }],
         },
         {
-          "title": "Option 2",
-          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/2 Years Card.png",
+          "title": "2 Year",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/Card 2-1.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=24" + params,
-            "title": "2 Year"
+            "title": "Choose this loan"
           }],
         },
         {
-          "title": "Option 3",
-          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/3 Years Card.png",
+          "title": "3 Year",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/Card 3-1.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=36" + params,
-            "title": "3 Year"
+            "title": "Choose this loan"
           }],
         },
         {
-          "title": "Option 4",
-          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/4 Years Card.png",
+          "title": "4 Year",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/Card 4-1.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=48" + params,
-            "title": "4 Year"
+            "title": "Choose this loan"
           }],
         },
         {
-          "title": "Option 5",
-          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/5 Years Card.png",
+          "title": "5 Year",
+          "image_url": "https://pages.fundingcircle.com/rs/880-DCM-835/images/Card 5-1.png",
           "buttons": [{
             "type": "web_url",
             "url": "http://fundingcircle.com/us/apply?loan_duration_in_months=60" + params,
-            "title": "5 Year"
+            "title": "Choose this loan"
           }],
         }]
       }
